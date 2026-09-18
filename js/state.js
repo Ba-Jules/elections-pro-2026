@@ -12,6 +12,7 @@ const ElecState = (() => {
   function emptyState() {
     return {
       version: 1,
+      projectName: '', // libellé libre affiché en vue d'ensemble — absent sur les anciens fichiers d'état, sans impact (repli sur un nom par défaut à l'affichage)
       communes: {}, // { "AJOUPA-BOUILLON": { avecCst: true, importsCap: [...], importsCcp: [...] } }
       records: { CAP: [], CCP_PUBLIC: [], CCP_PRIVE: [] },
       anomalies: [],

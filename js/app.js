@@ -53,6 +53,7 @@
   let settingsListenersBound = false;
   function bindSettings() {
     const s = state.settings;
+    $('#projectName').value = state.projectName || '';
     $('#dateScrutin').value = s.dateScrutin || '';
     $('#lieuSignature').value = s.lieuSignature || '';
     $('#mentionLegale').value = s.mentionLegale || '';
@@ -61,6 +62,7 @@
 
     if (settingsListenersBound) return;
     settingsListenersBound = true;
+    $('#projectName').addEventListener('input', (e) => { state.projectName = e.target.value; persist(); });
     $('#dateScrutin').addEventListener('change', (e) => { state.settings.dateScrutin = e.target.value; persist(); recompute(); });
     $('#lieuSignature').addEventListener('input', (e) => { state.settings.lieuSignature = e.target.value; persist(); });
     $('#mentionLegale').addEventListener('input', (e) => { state.settings.mentionLegale = e.target.value; persist(); });
@@ -80,7 +82,7 @@
     wrap.innerHTML = `
       <div class="commune-block__head">
         <input type="text" class="commune-name" list="communesDatalist" placeholder="Nom de la commune (ex : Le Marigot)" autocomplete="off" />
-        <button class="btn btn--ghost btn--small remove-block" title="Retirer ce bloc">✕</button>
+        <button class="btn btn--ghost btn--small remove-block" title="Retirer ce bloc"><svg class="icon"><use href="#icon-x"/></svg></button>
       </div>
       <label class="avec-cst-row">
         <input type="checkbox" class="avec-cst-checkbox" />
@@ -88,11 +90,13 @@
       </label>
       <div class="dropzones">
         <div class="dropzone" data-kind="cap">
+          <svg class="icon"><use href="#icon-import"/></svg>
           <div class="dropzone__label">Fichier CAP</div>
           <div class="dropzone__status">Glissez le fichier ici ou cliquez</div>
           <input type="file" accept=".xlsx" class="file-input" data-kind="cap" hidden />
         </div>
         <div class="dropzone" data-kind="ccp">
+          <svg class="icon"><use href="#icon-import"/></svg>
           <div class="dropzone__label">Fichier CCP / CST</div>
           <div class="dropzone__status">Glissez le fichier ici ou cliquez</div>
           <input type="file" accept=".xlsx" class="file-input" data-kind="ccp" hidden />
@@ -195,7 +199,7 @@
     ];
     if (!warnings.length) { box.innerHTML = ''; return; }
     box.innerHTML = `<div class="warn-list">${warnings
-      .map((w) => `<div class="warn-item">⚠ ${w.message}</div>`)
+      .map((w) => `<div class="warn-item"><svg class="icon"><use href="#icon-alert"/></svg>${escapeHtml(w.message)}</div>`)
       .join('')}</div>`;
   }
 
@@ -251,13 +255,14 @@
     renderDashboard();
     renderAnomalies();
     renderExportSection();
+    renderOverview();
   }
 
   function renderDashboard() {
     const box = $('#dashboard');
     const communeNames = Object.keys(state.communes);
     if (!communeNames.length) {
-      box.innerHTML = '<div class="empty-state">Aucune commune consolidée pour le moment — déposez un premier fichier à gauche pour démarrer.</div>';
+      box.innerHTML = '<div class="empty-state"><svg class="icon"><use href="#icon-check-circle"/></svg>Aucune commune consolidée pour le moment — déposez un premier fichier à gauche pour démarrer.</div>';
       return;
     }
     const groups = new Map();
@@ -278,11 +283,11 @@
       .join('');
 
     box.innerHTML = `
-      <table class="table">
+      <div class="table-scroll"><table class="table">
         <thead><tr><th>Commune</th><th>Entité</th><th>CAP A</th><th>CAP B</th><th>CAP C</th><th>CCP</th><th>CST</th></tr></thead>
         <tbody>${rows}</tbody>
         <tfoot><tr><td colspan="2">Total</td><td>${compiled.counts.capA}</td><td>${compiled.counts.capB}</td><td>${compiled.counts.capC}</td><td>${compiled.counts.ccp}</td><td>${compiled.counts.cst}</td></tr></tfoot>
-      </table>`;
+      </table></div>`;
   }
 
   function anomalyGroupKey(a) {
@@ -313,7 +318,7 @@
   function renderAnomalies() {
     const box = $('#anomalies');
     if (!compiled.anomalies.length) {
-      box.innerHTML = '<div class="empty-state">Aucun point à examiner — toutes les lignes importées sont cohérentes.</div>';
+      box.innerHTML = '<div class="empty-state"><svg class="icon"><use href="#icon-check-circle"/></svg>Aucun point à examiner — toutes les lignes importées sont cohérentes.</div>';
       return;
     }
     const groups = new Map();
@@ -339,10 +344,10 @@
         const rowsHtml = items
           .map((a) => `<tr><td>${escapeHtml(a.ref)}</td><td>${escapeHtml(a.message)}</td><td>${resolutionSelectHtml(a.type, a.ref, a.resolved, 'resolution-select')}</td></tr>`)
           .join('');
-        const table = `<table class="table table--anomalies">
+        const table = `<div class="table-scroll"><table class="table table--anomalies">
             <thead><tr><th>Référence</th><th>Détail</th><th>Décision</th></tr></thead>
             <tbody>${rowsHtml}</tbody>
-          </table>`;
+          </table></div>`;
         if (items.length <= 5) {
           return `<div class="anomaly-group-block">
             <div class="anomaly-group-head"><strong>${labelForAnomalyType(first.type)} — ${escapeHtml(fileKey)}</strong></div>
@@ -382,6 +387,60 @@
   function renderExportSection() {
     const has = compiled && (compiled.capA.length || compiled.capB.length || compiled.capC.length || compiled.ccp.length || compiled.cst.length);
     $('#exportSection').classList.toggle('hidden', !has);
+  }
+
+  // ------------------------------------------------------------ Vue d'ensemble
+
+  function renderOverview() {
+    const box = $('#overviewPanel');
+    const communeCount = Object.keys(state.communes).length;
+
+    if (!communeCount) {
+      box.innerHTML = `
+        <div class="hero-empty">
+          <div class="hero-empty__icon"><svg class="icon"><use href="#icon-building"/></svg></div>
+          <div class="hero-empty__text">
+            <h2>Aucune commune importée pour l'instant</h2>
+            <p class="muted">Déposez le premier fichier CAP et le fichier CCP/CST d'une commune dans la section « Importation » pour démarrer la consolidation.</p>
+          </div>
+          <a href="#section-import" class="btn btn--primary"><svg class="icon"><use href="#icon-import"/></svg>Commencer l'import</a>
+        </div>`;
+      return;
+    }
+
+    const agentsRecenses = state.records.CAP.length + state.records.CCP_PUBLIC.length + state.records.CCP_PRIVE.length;
+    const listesCompilees = compiled.counts.capA + compiled.counts.capB + compiled.counts.capC + compiled.counts.ccp + compiled.counts.cst;
+    const anomalieCount = compiled.anomalies.length;
+    const filesGenerated = !$('#exportSection').classList.contains('hidden');
+
+    box.innerHTML = `
+      <div class="overview-grid">
+        <div class="kpi-card">
+          <div class="kpi-icon"><svg class="icon"><use href="#icon-building"/></svg></div>
+          <div><div class="kpi-value">${communeCount}</div><div class="kpi-label">Commune${communeCount > 1 ? 's' : ''} consolidée${communeCount > 1 ? 's' : ''}</div></div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon"><svg class="icon"><use href="#icon-import"/></svg></div>
+          <div><div class="kpi-value">${agentsRecenses}</div><div class="kpi-label">Lignes agents reçues</div><div class="kpi-sub">CAP + CCP/CST, avant filtrage</div></div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon ${anomalieCount ? 'kpi-icon--warn' : ''}"><svg class="icon"><use href="#icon-alert"/></svg></div>
+          <div><div class="kpi-value">${anomalieCount}</div><div class="kpi-label">Point${anomalieCount > 1 ? 's' : ''} à examiner</div></div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon kpi-icon--champagne"><svg class="icon"><use href="#icon-results"/></svg></div>
+          <div><div class="kpi-value">${listesCompilees}</div><div class="kpi-label">Agents dans les 5 listes</div><div class="kpi-sub">${filesGenerated ? 'Prêtes à télécharger' : 'Compilez pour générer les fichiers'}</div></div>
+        </div>
+      </div>
+      <div class="overview-banner">
+        <div class="overview-banner__text">
+          <h2>${filesGenerated ? 'Les 5 listes sont à jour' : 'Prêt à compiler'}</h2>
+          <p class="muted">${anomalieCount
+            ? `${anomalieCount} point${anomalieCount > 1 ? 's' : ''} à examiner avant transmission — voir la section Contrôles.`
+            : 'Aucune anomalie en attente sur les données actuellement importées.'}</p>
+        </div>
+        <a href="#section-consolidation" class="btn btn--primary"><svg class="icon"><use href="#icon-layers"/></svg>Aller à la consolidation</a>
+      </div>`;
   }
 
   // ------------------------------------------------------------------ Export
@@ -490,8 +549,28 @@
     }, true);
   }
 
+  // Met en évidence, dans la barre latérale et la barre mobile, la section
+  // actuellement visible à l'écran (pure navigation, aucune donnée modifiée).
+  function initScrollspy() {
+    const sectionIds = [
+      'section-overview', 'section-import', 'section-settings',
+      'section-consolidation', 'section-results', 'section-anomalies', 'section-journal',
+    ];
+    const sections = sectionIds.map((id) => document.getElementById(id)).filter(Boolean);
+    if (!sections.length || !('IntersectionObserver' in window)) return;
+    const links = $$('.nav-link');
+    const setActive = (id) => links.forEach((l) => l.classList.toggle('is-active', l.dataset.section === id));
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries.filter((e) => e.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+      if (visible.length) setActive(visible[0].target.id);
+    }, { rootMargin: '-10% 0px -70% 0px', threshold: [0, 0.25, 0.5, 0.75, 1] });
+    sections.forEach((s) => observer.observe(s));
+    setActive(sections[0].id);
+  }
+
   function init() {
     populateStaticLists();
+    initScrollspy();
     $('#addCommuneBtn').addEventListener('click', createCommuneBlock);
     $('#compileBtn').addEventListener('click', onCompileClick);
     wireAnomalyResolutions();

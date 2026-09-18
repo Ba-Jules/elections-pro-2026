@@ -7,97 +7,191 @@
 <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
+
+  <!-- Sprite d'icônes SVG homogène, local, aucune dépendance externe -->
+  <svg style="display:none" aria-hidden="true">
+    <defs>
+      <symbol id="icon-mark" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M8 12.5l2.5 2.5L16 9"/></symbol>
+      <symbol id="icon-overview" viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/><path d="M10 19v-6h4v6"/></symbol>
+      <symbol id="icon-import" viewBox="0 0 24 24"><path d="M12 3v12"/><path d="M7 8l5-5 5 5"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></symbol>
+      <symbol id="icon-settings" viewBox="0 0 24 24"><line x1="4" y1="7" x2="20" y2="7"/><circle cx="14" cy="7" r="2"/><line x1="4" y1="17" x2="20" y2="17"/><circle cx="9" cy="17" r="2"/></symbol>
+      <symbol id="icon-layers" viewBox="0 0 24 24"><polygon points="12 3 3 8 12 13 21 8 12 3"/><polyline points="3 13 12 18 21 13"/><polyline points="3 17.5 12 22 21 17.5"/></symbol>
+      <symbol id="icon-results" viewBox="0 0 24 24"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/><path d="M9 13h6"/><path d="M9 17h6"/></symbol>
+      <symbol id="icon-alert" viewBox="0 0 24 24"><path d="M12 4l9 16H3z"/><line x1="12" y1="10" x2="12" y2="14.5"/><circle cx="12" cy="17.3" r="0.9" fill="currentColor" stroke="none"/></symbol>
+      <symbol id="icon-history" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></symbol>
+      <symbol id="icon-save" viewBox="0 0 24 24"><path d="M5 4h11l3 3v13H5z"/><path d="M8 4v5h7V4"/><path d="M8 14h8v6H8z"/></symbol>
+      <symbol id="icon-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v1H3z"/><path d="M3 8l1.4 9.8A2 2 0 0 0 6.4 19.5h11.2a2 2 0 0 0 2-1.7L21 8"/></symbol>
+      <symbol id="icon-plus-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></symbol>
+      <symbol id="icon-download" viewBox="0 0 24 24"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M4 19h16"/></symbol>
+      <symbol id="icon-package" viewBox="0 0 24 24"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><line x1="12" y1="13" x2="12" y2="21"/></symbol>
+      <symbol id="icon-clipboard" viewBox="0 0 24 24"><rect x="6" y="4" width="12" height="17" rx="2"/><rect x="9" y="2" width="6" height="4" rx="1"/><line x1="9" y1="11" x2="15" y2="11"/><line x1="9" y1="15" x2="15" y2="15"/></symbol>
+      <symbol id="icon-x" viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></symbol>
+      <symbol id="icon-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5 5-6"/></symbol>
+      <symbol id="icon-building" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="1"/><line x1="9" y1="7" x2="9" y2="7.01"/><line x1="15" y1="7" x2="15" y2="7.01"/><line x1="9" y1="11" x2="9" y2="11.01"/><line x1="15" y1="11" x2="15" y2="11.01"/><line x1="9" y1="15" x2="9" y2="15.01"/><line x1="15" y1="15" x2="15" y2="15.01"/><path d="M10 21v-4h4v4"/></symbol>
+    </defs>
+  </svg>
+
   <div id="toastZone" class="toast-zone"></div>
 
-  <header class="app-header">
-    <div>
-      <span class="app-header__kicker">Élections professionnelles 2026</span>
-      <h1>Consolidation des listes électorales</h1>
-      <p class="app-header__subtitle">
-        Outil local et autonome — aucune donnée ne quitte cet ordinateur (fonctionne sans connexion internet).
-      </p>
-    </div>
-    <div class="app-header__actions">
-      <button id="newProjectBtn" class="btn btn--ghost">Nouveau projet</button>
-      <button id="saveStateBtn" class="btn btn--ghost">💾 Sauvegarder l'état</button>
-      <label class="btn btn--ghost file-btn">
-        📂 Charger un état
-        <input type="file" id="loadStateInput" accept=".json" hidden />
+  <div class="app-shell">
+    <!-- ============================================================ Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar__brand">
+        <svg class="brand-mark"><use href="#icon-mark"/></svg>
+        <div>
+          <span class="brand-kicker">Élections pro. 2026</span>
+          <strong class="brand-title">Consolidation</strong>
+        </div>
+      </div>
+
+      <label class="sidebar__project-name">
+        Projet
+        <input type="text" id="projectName" placeholder="Nom du projet (optionnel)" autocomplete="off" />
       </label>
-    </div>
-  </header>
 
-  <main class="layout">
-    <!-- Colonne de gauche : import des fichiers communes -->
-    <section class="col col--import">
-      <h2><span class="section-number">01</span>Fichiers reçus des communes</h2>
-      <p class="muted">Un bloc par commune : déposez le fichier CAP et le fichier CCP/CST, puis ajoutez la commune à la consolidation. Vous pouvez répéter cette étape au fil des envois — les listes se complètent sans rien perdre.</p>
-      <div id="communeBlocks"></div>
-      <button id="addCommuneBtn" class="btn btn--tonal">+ Ajouter une commune</button>
-      <!-- liste des 34 communes de Martinique, remplie par js/communes.js -->
-      <datalist id="communesDatalist"></datalist>
-    </section>
+      <nav class="sidebar__nav" aria-label="Navigation principale">
+        <a href="#section-overview" class="nav-link" data-section="section-overview"><svg class="icon"><use href="#icon-overview"/></svg>Vue d'ensemble</a>
+        <a href="#section-import" class="nav-link" data-section="section-import"><svg class="icon"><use href="#icon-import"/></svg>Importation</a>
+        <a href="#section-settings" class="nav-link" data-section="section-settings"><svg class="icon"><use href="#icon-settings"/></svg>Paramètres</a>
+        <a href="#section-consolidation" class="nav-link" data-section="section-consolidation"><svg class="icon"><use href="#icon-layers"/></svg>Consolidation</a>
+        <a href="#section-results" class="nav-link" data-section="section-results"><svg class="icon"><use href="#icon-results"/></svg>Résultats</a>
+        <a href="#section-anomalies" class="nav-link" data-section="section-anomalies"><svg class="icon"><use href="#icon-alert"/></svg>Contrôles</a>
+        <a href="#section-journal" class="nav-link" data-section="section-journal"><svg class="icon"><use href="#icon-history"/></svg>Historique</a>
+      </nav>
 
-    <!-- Colonne centrale : réglages + tableau de bord + résultats -->
-    <section class="col col--main">
-      <details class="panel" open>
-        <summary><span class="section-number">02</span>Réglages</summary>
-        <div class="panel__body settings-grid">
-          <label>Date du scrutin
-            <input type="date" id="dateScrutin" />
-          </label>
-          <label>Lieu de signature
-            <input type="text" id="lieuSignature" placeholder="ex : Fort-de-France" />
-          </label>
-          <label>Règle de constitution de la liste CST
-            <select id="regleCst">
-              <!-- options générées dynamiquement depuis ElecRules.CST_RULES (js/app.js) -->
-            </select>
-          </label>
-          <label class="checkbox-row">
-            <input type="checkbox" id="includeTrace" />
-            Inclure les colonnes de traçabilité (Référence source, Observation) en plus des 7 colonnes d'origine
-          </label>
-          <label class="full-width">Mention légale (éditable — les délais 2022 ne sont pas reconduits automatiquement)
-            <textarea id="mentionLegale" rows="3"></textarea>
-          </label>
+      <div class="sidebar__footer">
+        <button id="saveStateBtn" class="btn btn--sidebar"><svg class="icon"><use href="#icon-save"/></svg>Sauvegarder l'état</button>
+        <label class="btn btn--sidebar file-btn">
+          <svg class="icon"><use href="#icon-folder"/></svg>Charger un état
+          <input type="file" id="loadStateInput" accept=".json" hidden />
+        </label>
+        <button id="newProjectBtn" class="btn btn--sidebar btn--sidebar-muted"><svg class="icon"><use href="#icon-plus-circle"/></svg>Nouveau projet</button>
+        <p class="sidebar__disclaimer">Outil 100% local — aucune donnée ne quitte cet ordinateur.</p>
+      </div>
+    </aside>
+
+    <!-- Barre de navigation mobile (< 1024px), reflète les mêmes ancres -->
+    <nav class="mobile-nav" aria-label="Navigation principale (mobile)">
+      <a href="#section-overview" class="nav-link" data-section="section-overview"><svg class="icon"><use href="#icon-overview"/></svg><span>Vue d'ensemble</span></a>
+      <a href="#section-import" class="nav-link" data-section="section-import"><svg class="icon"><use href="#icon-import"/></svg><span>Import</span></a>
+      <a href="#section-settings" class="nav-link" data-section="section-settings"><svg class="icon"><use href="#icon-settings"/></svg><span>Réglages</span></a>
+      <a href="#section-consolidation" class="nav-link" data-section="section-consolidation"><svg class="icon"><use href="#icon-layers"/></svg><span>Consolidation</span></a>
+      <a href="#section-results" class="nav-link" data-section="section-results"><svg class="icon"><use href="#icon-results"/></svg><span>Résultats</span></a>
+      <a href="#section-anomalies" class="nav-link" data-section="section-anomalies"><svg class="icon"><use href="#icon-alert"/></svg><span>Contrôles</span></a>
+      <a href="#section-journal" class="nav-link" data-section="section-journal"><svg class="icon"><use href="#icon-history"/></svg><span>Historique</span></a>
+    </nav>
+
+    <!-- ============================================================== Main -->
+    <main class="app-main">
+
+      <!-- Vue d'ensemble -->
+      <section id="section-overview" class="view view--hero">
+        <div class="view__header">
+          <h1>Vue d'ensemble</h1>
+          <p class="view__subtitle">L'état réel du projet, à l'instant présent — aucun chiffre de démonstration.</p>
         </div>
-      </details>
+        <div id="overviewPanel"></div>
+      </section>
 
-      <div class="panel">
-        <h2><span class="section-number">03</span>Tableau de bord</h2>
-        <div id="dashboard"></div>
-        <button id="compileBtn" class="btn btn--primary btn--large">⚙ Compiler / Mettre à jour les 5 listes</button>
+      <!-- Importation + Consolidation, côte à côte pour un suivi en direct -->
+      <div class="workrow">
+        <section id="section-import" class="view col--import">
+          <div class="view__header">
+            <h2><svg class="icon"><use href="#icon-import"/></svg>Fichiers reçus des communes</h2>
+            <p class="muted">Un bloc par commune : déposez le fichier CAP et le fichier CCP/CST, puis ajoutez la commune à la consolidation. Répétez cette étape au fil des envois — les listes se complètent sans rien perdre.</p>
+          </div>
+          <div id="communeBlocks"></div>
+          <button id="addCommuneBtn" class="btn btn--tonal"><svg class="icon"><use href="#icon-plus-circle"/></svg>Ajouter une commune</button>
+          <!-- liste des 34 communes de Martinique, remplie par js/communes.js -->
+          <datalist id="communesDatalist"></datalist>
+        </section>
+
+        <section id="section-consolidation" class="view col--main">
+          <div class="panel panel--accent">
+            <div class="view__header">
+              <h2><svg class="icon"><use href="#icon-layers"/></svg>Consolidation</h2>
+              <p class="muted">Répartition actuelle des agents consolidés, par commune et par scrutin.</p>
+            </div>
+            <div id="dashboard"></div>
+            <button id="compileBtn" class="btn btn--primary btn--large"><svg class="icon"><use href="#icon-layers"/></svg>Compiler / Mettre à jour les 5 listes</button>
+          </div>
+        </section>
       </div>
 
-      <div class="panel">
-        <h2><span class="section-number">!</span>Points à examiner</h2>
-        <div id="anomalies"></div>
-      </div>
-
-      <div id="exportSection" class="panel hidden">
-        <h2 id="resultatsSection"><span class="section-number">04</span>Résultats</h2>
-        <div class="export-grid">
-          <button class="btn btn--secondary download-one" data-key="capA">⬇ Liste CAP A compilée</button>
-          <button class="btn btn--secondary download-one" data-key="capB">⬇ Liste CAP B compilée</button>
-          <button class="btn btn--secondary download-one" data-key="capC">⬇ Liste CAP C compilée</button>
-          <button class="btn btn--secondary download-one" data-key="ccp">⬇ Liste CCP compilée</button>
-          <button class="btn btn--secondary download-one" data-key="cst">⬇ Liste CST compilée</button>
+      <!-- Réglages -->
+      <section id="section-settings" class="view">
+        <div class="panel">
+          <div class="view__header">
+            <h2><svg class="icon"><use href="#icon-settings"/></svg>Paramètres</h2>
+            <p class="muted">Ces réglages déterminent le contenu et la présentation des 5 listes officielles.</p>
+          </div>
+          <div class="settings-grid">
+            <label>Date du scrutin
+              <input type="date" id="dateScrutin" />
+            </label>
+            <label>Lieu de signature
+              <input type="text" id="lieuSignature" placeholder="ex : Fort-de-France" />
+            </label>
+            <label>Règle de constitution de la liste CST
+              <select id="regleCst">
+                <!-- options générées dynamiquement depuis ElecRules.CST_RULES (js/app.js) -->
+              </select>
+            </label>
+            <label class="checkbox-row">
+              <input type="checkbox" id="includeTrace" />
+              Inclure les colonnes de traçabilité (Référence source, Observation) en plus des 7 colonnes d'origine
+            </label>
+            <label class="full-width">Mention légale (éditable — les délais 2022 ne sont pas reconduits automatiquement)
+              <textarea id="mentionLegale" rows="3"></textarea>
+            </label>
+          </div>
         </div>
-        <button id="downloadAllBtn" class="btn btn--tonal">⬇ Télécharger les 5 fichiers</button>
-        <button id="reportBtn" class="btn btn--secondary">📋 Rapport de contrôle</button>
-        <hr />
-        <h3>Extraction par commune (envoi)</h3>
-        <p class="muted">Génère, pour chaque commune × chaque scrutin pertinent, un extrait au même format que les listes officielles — regroupés dans une archive .zip.</p>
-        <button id="extractsBtn" class="btn btn--tonal">📦 Générer les extraits par commune</button>
-      </div>
+      </section>
 
-      <details class="panel">
-        <summary>Journal des actions</summary>
-        <div id="journal" class="panel__body"></div>
-      </details>
-    </section>
-  </main>
+      <!-- Résultats -->
+      <section id="section-results" class="view">
+        <div id="exportSection" class="panel hidden">
+          <div class="view__header">
+            <h2 id="resultatsSection"><svg class="icon"><use href="#icon-results"/></svg>Résultats</h2>
+            <p class="muted">Les 5 listes officielles, fidèles au format 2022, prêtes à être transmises.</p>
+          </div>
+          <div class="export-grid">
+            <button class="btn btn--secondary download-one" data-key="capA"><svg class="icon"><use href="#icon-download"/></svg>Liste CAP A compilée</button>
+            <button class="btn btn--secondary download-one" data-key="capB"><svg class="icon"><use href="#icon-download"/></svg>Liste CAP B compilée</button>
+            <button class="btn btn--secondary download-one" data-key="capC"><svg class="icon"><use href="#icon-download"/></svg>Liste CAP C compilée</button>
+            <button class="btn btn--secondary download-one" data-key="ccp"><svg class="icon"><use href="#icon-download"/></svg>Liste CCP compilée</button>
+            <button class="btn btn--secondary download-one" data-key="cst"><svg class="icon"><use href="#icon-download"/></svg>Liste CST compilée</button>
+          </div>
+          <button id="downloadAllBtn" class="btn btn--tonal"><svg class="icon"><use href="#icon-download"/></svg>Télécharger les 5 fichiers</button>
+          <button id="reportBtn" class="btn btn--secondary"><svg class="icon"><use href="#icon-clipboard"/></svg>Rapport de contrôle</button>
+          <hr />
+          <h3>Extraction par commune (envoi)</h3>
+          <p class="muted">Génère, pour chaque commune × chaque scrutin pertinent, un extrait au même format que les listes officielles — regroupés dans une archive .zip.</p>
+          <button id="extractsBtn" class="btn btn--tonal"><svg class="icon"><use href="#icon-package"/></svg>Générer les extraits par commune</button>
+        </div>
+      </section>
+
+      <!-- Points à examiner -->
+      <section id="section-anomalies" class="view">
+        <div class="panel">
+          <div class="view__header">
+            <h2><svg class="icon"><use href="#icon-alert"/></svg>Points à examiner</h2>
+            <p class="muted">Chaque anomalie détectée reste visible et traçable ; rien n'est corrigé silencieusement.</p>
+          </div>
+          <div id="anomalies"></div>
+        </div>
+      </section>
+
+      <!-- Journal -->
+      <section id="section-journal" class="view">
+        <details class="panel">
+          <summary><svg class="icon"><use href="#icon-history"/></svg>Journal des actions</summary>
+          <div id="journal" class="panel__body"></div>
+        </details>
+      </section>
+
+    </main>
+  </div>
 
   <script src="vendor/exceljs.min.js"></script>
   <script src="vendor/jszip.min.js"></script>
