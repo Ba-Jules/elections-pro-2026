@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Consolidation des listes électorales professionnelles 2026</title>
+<link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div id="toastZone" class="toast-zone"></div>
+
+  <header class="app-header">
+    <div>
+      <span class="app-header__kicker">Élections professionnelles 2026</span>
+      <h1>Consolidation des listes électorales</h1>
+      <p class="app-header__subtitle">
+        Outil local et autonome — aucune donnée ne quitte cet ordinateur (fonctionne sans connexion internet).
+      </p>
+    </div>
+    <div class="app-header__actions">
+      <button id="newProjectBtn" class="btn btn--ghost">Nouveau projet</button>
+      <button id="saveStateBtn" class="btn btn--ghost">💾 Sauvegarder l'état</button>
+      <label class="btn btn--ghost file-btn">
+        📂 Charger un état
+        <input type="file" id="loadStateInput" accept=".json" hidden />
+      </label>
+    </div>
+  </header>
+
+  <main class="layout">
+    <!-- Colonne de gauche : import des fichiers communes -->
+    <section class="col col--import">
+      <h2><span class="section-number">01</span>Fichiers reçus des communes</h2>
+      <p class="muted">Un bloc par commune : déposez le fichier CAP et le fichier CCP/CST, puis ajoutez la commune à la consolidation. Vous pouvez répéter cette étape au fil des envois — les listes se complètent sans rien perdre.</p>
+      <div id="communeBlocks"></div>
+      <button id="addCommuneBtn" class="btn btn--tonal">+ Ajouter une commune</button>
+      <!-- liste des 34 communes de Martinique, remplie par js/communes.js -->
+      <datalist id="communesDatalist"></datalist>
+    </section>
+
+    <!-- Colonne centrale : réglages + tableau de bord + résultats -->
+    <section class="col col--main">
+      <details class="panel" open>
+        <summary><span class="section-number">02</span>Réglages</summary>
+        <div class="panel__body settings-grid">
+          <label>Date du scrutin
+            <input type="date" id="dateScrutin" />
+          </label>
+          <label>Lieu de signature
+            <input type="text" id="lieuSignature" placeholder="ex : Fort-de-France" />
+          </label>
+          <label>Règle de constitution de la liste CST
+            <select id="regleCst">
+              <!-- options générées dynamiquement depuis ElecRules.CST_RULES (js/app.js) -->
+            </select>
+          </label>
+          <label class="checkbox-row">
+            <input type="checkbox" id="includeTrace" />
+            Inclure les colonnes de traçabilité (Référence source, Observation) en plus des 7 colonnes d'origine
+          </label>
+          <label class="full-width">Mention légale (éditable — les délais 2022 ne sont pas reconduits automatiquement)
+            <textarea id="mentionLegale" rows="3"></textarea>
+          </label>
+        </div>
+      </details>
+
+      <div class="panel">
+        <h2><span class="section-number">03</span>Tableau de bord</h2>
+        <div id="dashboard"></div>
+        <button id="compileBtn" class="btn btn--primary btn--large">⚙ Compiler / Mettre à jour les 5 listes</button>
+      </div>
+
+      <div class="panel">
+        <h2><span class="section-number">!</span>Points à examiner</h2>
+        <div id="anomalies"></div>
+      </div>
+
+      <div id="exportSection" class="panel hidden">
+        <h2 id="resultatsSection"><span class="section-number">04</span>Résultats</h2>
+        <div class="export-grid">
+          <button class="btn btn--secondary download-one" data-key="capA">⬇ Liste CAP A compilée</button>
+          <button class="btn btn--secondary download-one" data-key="capB">⬇ Liste CAP B compilée</button>
+          <button class="btn btn--secondary download-one" data-key="capC">⬇ Liste CAP C compilée</button>
+          <button class="btn btn--secondary download-one" data-key="ccp">⬇ Liste CCP compilée</button>
+          <button class="btn btn--secondary download-one" data-key="cst">⬇ Liste CST compilée</button>
+        </div>
+        <button id="downloadAllBtn" class="btn btn--tonal">⬇ Télécharger les 5 fichiers</button>
+        <button id="reportBtn" class="btn btn--secondary">📋 Rapport de contrôle</button>
+        <hr />
+        <h3>Extraction par commune (envoi)</h3>
+        <p class="muted">Génère, pour chaque commune × chaque scrutin pertinent, un extrait au même format que les listes officielles — regroupés dans une archive .zip.</p>
+        <button id="extractsBtn" class="btn btn--tonal">📦 Générer les extraits par commune</button>
+      </div>
+
+      <details class="panel">
+        <summary>Journal des actions</summary>
+        <div id="journal" class="panel__body"></div>
+      </details>
+    </section>
+  </main>
+
+  <script src="vendor/exceljs.min.js"></script>
+  <script src="vendor/jszip.min.js"></script>
+  <script src="js/communes.js"></script>
+  <script src="js/parsers.js"></script>
+  <script src="js/rules.js"></script>
+  <script src="js/generator.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
