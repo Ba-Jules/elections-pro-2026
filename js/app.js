@@ -553,8 +553,8 @@
   // actuellement visible à l'écran (pure navigation, aucune donnée modifiée).
   function initScrollspy() {
     const sectionIds = [
-      'section-overview', 'section-import', 'section-settings',
-      'section-consolidation', 'section-results', 'section-anomalies', 'section-journal',
+      'section-overview', 'section-import', 'section-consolidation',
+      'section-settings', 'section-anomalies', 'section-results', 'section-journal',
     ];
     const sections = sectionIds.map((id) => document.getElementById(id)).filter(Boolean);
     if (!sections.length || !('IntersectionObserver' in window)) return;

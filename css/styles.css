@@ -285,6 +285,66 @@ a { color: inherit; }
 }
 
 /* ==========================================================================
+   Badges numérotés — repères d'étapes (1 Import → 5 Résultats)
+   ========================================================================== */
+
+.step-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--emerald-600), var(--emerald-800));
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-xs);
+}
+
+.step-badge--nav {
+  width: 22px; height: 22px;
+  font-size: 0.72rem;
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--text-on-dark);
+  box-shadow: none;
+}
+.sidebar .nav-link:hover .step-badge--nav,
+.sidebar .nav-link.is-active .step-badge--nav {
+  background: var(--emerald-600);
+  color: #fff;
+}
+.mobile-nav .nav-link.is-active .step-badge--nav { background: var(--emerald-600); color: #fff; }
+
+/* Bandeau "parcours en un coup d'œil", affiché en Vue d'ensemble */
+.workflow-stepper {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2);
+  margin: var(--space-5) 0;
+}
+.workflow-stepper__step {
+  display: flex; align-items: center; gap: var(--space-2);
+  padding: 6px var(--space-4) 6px 6px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+  color: var(--navy-900);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  box-shadow: var(--shadow-xs);
+  transition: box-shadow var(--transition-slow), transform var(--transition-slow), border-color var(--transition);
+}
+.workflow-stepper__step:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+  border-color: var(--emerald-600);
+}
+.workflow-stepper__arrow { color: var(--text-muted); font-size: var(--fs-md); }
+@media (max-width: 640px) {
+  .workflow-stepper__arrow { display: none; }
+  .workflow-stepper { gap: var(--space-3); }
+}
+
+/* ==========================================================================
    Cartes / panneaux
    ========================================================================== */
 

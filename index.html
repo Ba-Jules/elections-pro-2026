@@ -51,11 +51,11 @@
 
       <nav class="sidebar__nav" aria-label="Navigation principale">
         <a href="#section-overview" class="nav-link" data-section="section-overview"><svg class="icon"><use href="#icon-overview"/></svg>Vue d'ensemble</a>
-        <a href="#section-import" class="nav-link" data-section="section-import"><svg class="icon"><use href="#icon-import"/></svg>Importation</a>
-        <a href="#section-settings" class="nav-link" data-section="section-settings"><svg class="icon"><use href="#icon-settings"/></svg>Paramètres</a>
-        <a href="#section-consolidation" class="nav-link" data-section="section-consolidation"><svg class="icon"><use href="#icon-layers"/></svg>Consolidation</a>
-        <a href="#section-results" class="nav-link" data-section="section-results"><svg class="icon"><use href="#icon-results"/></svg>Résultats</a>
-        <a href="#section-anomalies" class="nav-link" data-section="section-anomalies"><svg class="icon"><use href="#icon-alert"/></svg>Contrôles</a>
+        <a href="#section-import" class="nav-link" data-section="section-import"><span class="step-badge step-badge--nav">1</span>Importation</a>
+        <a href="#section-consolidation" class="nav-link" data-section="section-consolidation"><span class="step-badge step-badge--nav">2</span>Consolidation</a>
+        <a href="#section-settings" class="nav-link" data-section="section-settings"><span class="step-badge step-badge--nav">3</span>Paramètres</a>
+        <a href="#section-anomalies" class="nav-link" data-section="section-anomalies"><span class="step-badge step-badge--nav">4</span>Contrôles</a>
+        <a href="#section-results" class="nav-link" data-section="section-results"><span class="step-badge step-badge--nav">5</span>Résultats</a>
         <a href="#section-journal" class="nav-link" data-section="section-journal"><svg class="icon"><use href="#icon-history"/></svg>Historique</a>
       </nav>
 
@@ -73,11 +73,11 @@
     <!-- Barre de navigation mobile (< 1024px), reflète les mêmes ancres -->
     <nav class="mobile-nav" aria-label="Navigation principale (mobile)">
       <a href="#section-overview" class="nav-link" data-section="section-overview"><svg class="icon"><use href="#icon-overview"/></svg><span>Vue d'ensemble</span></a>
-      <a href="#section-import" class="nav-link" data-section="section-import"><svg class="icon"><use href="#icon-import"/></svg><span>Import</span></a>
-      <a href="#section-settings" class="nav-link" data-section="section-settings"><svg class="icon"><use href="#icon-settings"/></svg><span>Réglages</span></a>
-      <a href="#section-consolidation" class="nav-link" data-section="section-consolidation"><svg class="icon"><use href="#icon-layers"/></svg><span>Consolidation</span></a>
-      <a href="#section-results" class="nav-link" data-section="section-results"><svg class="icon"><use href="#icon-results"/></svg><span>Résultats</span></a>
-      <a href="#section-anomalies" class="nav-link" data-section="section-anomalies"><svg class="icon"><use href="#icon-alert"/></svg><span>Contrôles</span></a>
+      <a href="#section-import" class="nav-link" data-section="section-import"><span class="step-badge step-badge--nav">1</span><span>Import</span></a>
+      <a href="#section-consolidation" class="nav-link" data-section="section-consolidation"><span class="step-badge step-badge--nav">2</span><span>Consolidation</span></a>
+      <a href="#section-settings" class="nav-link" data-section="section-settings"><span class="step-badge step-badge--nav">3</span><span>Réglages</span></a>
+      <a href="#section-anomalies" class="nav-link" data-section="section-anomalies"><span class="step-badge step-badge--nav">4</span><span>Contrôles</span></a>
+      <a href="#section-results" class="nav-link" data-section="section-results"><span class="step-badge step-badge--nav">5</span><span>Résultats</span></a>
       <a href="#section-journal" class="nav-link" data-section="section-journal"><svg class="icon"><use href="#icon-history"/></svg><span>Historique</span></a>
     </nav>
 
@@ -90,6 +90,17 @@
           <h1>Vue d'ensemble</h1>
           <p class="view__subtitle">L'état réel du projet, à l'instant présent — aucun chiffre de démonstration.</p>
         </div>
+        <nav class="workflow-stepper" aria-label="Étapes de l'outil">
+          <a href="#section-import" class="workflow-stepper__step"><span class="step-badge">1</span>Importer</a>
+          <span class="workflow-stepper__arrow" aria-hidden="true">→</span>
+          <a href="#section-consolidation" class="workflow-stepper__step"><span class="step-badge">2</span>Consolider</a>
+          <span class="workflow-stepper__arrow" aria-hidden="true">→</span>
+          <a href="#section-settings" class="workflow-stepper__step"><span class="step-badge">3</span>Paramètres</a>
+          <span class="workflow-stepper__arrow" aria-hidden="true">→</span>
+          <a href="#section-anomalies" class="workflow-stepper__step"><span class="step-badge">4</span>Contrôles</a>
+          <span class="workflow-stepper__arrow" aria-hidden="true">→</span>
+          <a href="#section-results" class="workflow-stepper__step"><span class="step-badge">5</span>Résultats</a>
+        </nav>
         <div id="overviewPanel"></div>
       </section>
 
@@ -97,7 +108,7 @@
       <div class="workrow">
         <section id="section-import" class="view col--import">
           <div class="view__header">
-            <h2><svg class="icon"><use href="#icon-import"/></svg>Fichiers reçus des communes</h2>
+            <h2><span class="step-badge">1</span>Fichiers reçus des communes</h2>
             <p class="muted">Un bloc par commune : déposez le fichier CAP et le fichier CCP/CST, puis ajoutez la commune à la consolidation. Répétez cette étape au fil des envois — les listes se complètent sans rien perdre.</p>
           </div>
           <div id="communeBlocks"></div>
@@ -109,7 +120,7 @@
         <section id="section-consolidation" class="view col--main">
           <div class="panel panel--accent">
             <div class="view__header">
-              <h2><svg class="icon"><use href="#icon-layers"/></svg>Consolidation</h2>
+              <h2><span class="step-badge">2</span>Consolidation</h2>
               <p class="muted">Répartition actuelle des agents consolidés, par commune et par scrutin.</p>
             </div>
             <div id="dashboard"></div>
@@ -122,7 +133,7 @@
       <section id="section-settings" class="view">
         <div class="panel">
           <div class="view__header">
-            <h2><svg class="icon"><use href="#icon-settings"/></svg>Paramètres</h2>
+            <h2><span class="step-badge">3</span>Paramètres</h2>
             <p class="muted">Ces réglages déterminent le contenu et la présentation des 5 listes officielles.</p>
           </div>
           <div class="settings-grid">
@@ -148,11 +159,22 @@
         </div>
       </section>
 
+      <!-- Points à examiner -->
+      <section id="section-anomalies" class="view">
+        <div class="panel">
+          <div class="view__header">
+            <h2><span class="step-badge">4</span>Points à examiner</h2>
+            <p class="muted">Chaque anomalie détectée reste visible et traçable ; rien n'est corrigé silencieusement.</p>
+          </div>
+          <div id="anomalies"></div>
+        </div>
+      </section>
+
       <!-- Résultats -->
       <section id="section-results" class="view">
         <div id="exportSection" class="panel hidden">
           <div class="view__header">
-            <h2 id="resultatsSection"><svg class="icon"><use href="#icon-results"/></svg>Résultats</h2>
+            <h2 id="resultatsSection"><span class="step-badge">5</span>Résultats</h2>
             <p class="muted">Les 5 listes officielles, fidèles au format 2022, prêtes à être transmises.</p>
           </div>
           <div class="export-grid">
@@ -168,17 +190,6 @@
           <h3>Extraction par commune (envoi)</h3>
           <p class="muted">Génère, pour chaque commune × chaque scrutin pertinent, un extrait au même format que les listes officielles — regroupés dans une archive .zip.</p>
           <button id="extractsBtn" class="btn btn--tonal"><svg class="icon"><use href="#icon-package"/></svg>Générer les extraits par commune</button>
-        </div>
-      </section>
-
-      <!-- Points à examiner -->
-      <section id="section-anomalies" class="view">
-        <div class="panel">
-          <div class="view__header">
-            <h2><svg class="icon"><use href="#icon-alert"/></svg>Points à examiner</h2>
-            <p class="muted">Chaque anomalie détectée reste visible et traçable ; rien n'est corrigé silencieusement.</p>
-          </div>
-          <div id="anomalies"></div>
         </div>
       </section>
 
